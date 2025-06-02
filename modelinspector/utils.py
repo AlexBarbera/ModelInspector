@@ -77,12 +77,13 @@ def hidden_to_plotly(hidden: torch.Tensor, name: str = None) -> plotly.graph_obj
             plotly.express.imshow(hidden[0],
                                   animation_frame=0,
                                   labels=dict(animation_frame="channel"),
-                                  title=name if name is not None else "",
+                                  title="<b>" + name + "</b>" if name is not None else "",
                                   color_continuous_scale="Greys_r",
                                   aspect="equal"
                                   ),
             layout={"autosize": True, "margin": {"b": 0, "t": 0, "r": 0, "l": 0}}
         )
+        data.update_layout(title={'font': {"size": 20, 'family': "Arial Black"}})
 
     else:
         data = {
@@ -90,9 +91,10 @@ def hidden_to_plotly(hidden: torch.Tensor, name: str = None) -> plotly.graph_obj
             "y": hidden[0]
         }
         data = plotly.graph_objects.Figure(
-            plotly.express.bar(data, x="x", y="y", title=name if name is not None else "",
+            plotly.express.bar(data, x="x", y="y", title="<b>" + name + "</b>" if name is not None else "",
                                labels={"x": "neuron", "y": "Value"}),
             layout={"autosize": True, "margin": {"b": 0, "t": 0, "r": 0, "l": 0}}
         )
+        data.update_layout(title={'font': {"size": 20, 'family': "Arial Black"}})
 
     return data

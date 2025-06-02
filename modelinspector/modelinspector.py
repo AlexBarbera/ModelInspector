@@ -1,6 +1,7 @@
 import torchvision.transforms as transforms
 import dash
 import plotly.express
+import plotly.graph_objects
 import torch
 import torchvision.models
 from PIL import Image
@@ -66,15 +67,16 @@ class ModelInspector:
                                         html.Div(id="images",
                                                  children=[
                                                      dcc.Graph(id="original",
-                                                               figure=plotly.express.imshow(
-                                                                   self.meta['x'].detach()[0].permute(1, 2, 0),
-                                                                   title="Input",
-                                                                   zmin=self.meta['x'].detach()[
-                                                                       0].min().item(),
-                                                                   zmax=self.meta['x'].detach()[
-                                                                       0].max().item()
-                                                               )
-                                                               ),
+                                                               figure=plotly.graph_objects.Figure(
+                                                                   plotly.express.imshow(
+                                                                       self.meta['x'].detach()[0].permute(1, 2, 0),
+                                                                       title="<b>Input</b>",
+                                                                       zmin=self.meta['x'].detach()[
+                                                                           0].min().item(),
+                                                                       zmax=self.meta['x'].detach()[
+                                                                           0].max().item()
+                                                                   ), layout={"title": {'font': {"size": 20, 'family': "Arial Black"}}}
+                                                               )),
                                                      dcc.Graph(id="layer",
                                                                figure=None
                                                                )
@@ -99,7 +101,7 @@ class ModelInspector:
                 #print(self.meta['x'].shape)
                 x = self.meta['x'].detach()[0]
                 fig = plotly.express.imshow(x.permute(1, 2, 0),
-                                            title="Input", zmin=x.min().item(), zmax=x.max().item()
+                                            title="<b>Input</b>", zmin=x.min().item(), zmax=x.max().item()
                                             )
             else:
                 fig = utils.hidden_to_plotly(
